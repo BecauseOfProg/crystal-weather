@@ -17,8 +17,12 @@ module CrystalWeather
     class Unauthorized < CrystalWeather::Exception
     end
 
-    # DataError informs that there's an error in the data sended to the API
-    class DataError < CrystalWeather::Exception
+    # NotFound informs that the location provided by the caller wasn't found
+    class NotFound < CrystalWeather::Exception
+    end
+
+    # APIError informs that an unknown error was thrown by the API
+    class UnknownAPIError < CrystalWeather::Exception
     end
   end
 end

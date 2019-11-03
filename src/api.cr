@@ -52,7 +52,7 @@ module CrystalWeather
         when 403
           raise Exceptions::Unauthorized.new("unauthorized key. #{api_status_text}")
         else
-          raise Exceptions::Unauthorized.new("unknown error from the API : #{api_status_text}")
+          raise Exceptions::UnknownAPIError.new("unknown error from the API : #{api_status_text}")
         end
       end
     end
