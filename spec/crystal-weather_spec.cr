@@ -7,7 +7,7 @@ describe CrystalWeather do
         api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
         api.should be_a CrystalWeather::API
         api.lang.should eq "fr"
-        api.unit.should eq "metric"
+        api.units.should eq "metric"
       end
 
       it "should raise an unknown lang exception" do

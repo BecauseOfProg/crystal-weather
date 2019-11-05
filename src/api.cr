@@ -13,7 +13,7 @@ module CrystalWeather
       raise Exceptions::UnknownLang.new("the lang #{lang} can't be accepted (please refer to the list of accepted langs on the documentation)") unless LANGS.includes? lang
       @lang = lang
 
-      raise Exceptions::UnknownUnit.new("the units #{units} can't be accepted (please refer to the list of accepted units on the documentation)") unless UNITS.includes? unit
+      raise Exceptions::UnknownUnit.new("the units #{units} can't be accepted (please refer to the list of accepted units on the documentation)") unless UNITS.includes? units
       @units = units
     end
 
