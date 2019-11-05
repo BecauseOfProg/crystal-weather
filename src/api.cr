@@ -19,16 +19,24 @@ module CrystalWeather
 
     # Fetches the current weather for a specific location
     def current(location : String) : Types::Current
-      data = make_request("weather", location)
-      puts data
+      data = raw_current(location)
       return Types::Current.new
     end
 
     # Fetches the forecast for a specific location
     def forecast(location : String) : Types::Forecast
-      data = make_request("forecast", location)
-      puts data
+      data = raw_forecast(location)
       return Types::Forecast.new
+    end
+
+    # Gets the raw data of the current weather for a specific location
+    def raw_current(location : String) : JSON::Any
+      return make_request("weather", location)
+    end
+
+    # Gets the raw data of the forecast for a specific location
+    def raw_forecast(location : String) : JSON::Any
+      return make_request("weather", location)
     end
 
     private def make_request(type : String, location : String) : JSON::Any

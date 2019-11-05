@@ -24,9 +24,10 @@ describe CrystalWeather do
     end
 
     describe "#current" do
-      it "should print the raw weather data" do
+      it "should get the raw current weather data" do
         api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
-        api.current("Lyon,FR")
+        data = api.raw_current("Lyon,FR")
+        data.should be_a(JSON::Any)
       end
 
       it "should raise an unknown location error" do
@@ -45,9 +46,10 @@ describe CrystalWeather do
     end
 
     describe "#forecast" do
-      it "should print the raw forecast data" do
+      it "should get the raw forecast data" do
         api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
-        api.forecast("Lyon,FR")
+        data = api.raw_forecast("Lyon,FR")
+        data.should be_a(JSON::Any)
       end
     end
   end
