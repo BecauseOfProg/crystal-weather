@@ -3,18 +3,18 @@ require "http"
 module CrystalWeather
   # API is the interface that allows caller to interact with OpenWeatherMap's API
   class API
-    getter unit : String
+    getter units : String
     getter lang : String
 
     # Creates a new API object
-    def initialize(api_key : String, lang : String, unit : String)
+    def initialize(api_key : String, lang : String, units : String)
       @api_key = api_key
 
-      raise Exceptions::UnknownLang.new("unknown lang #{lang}") unless LANGS.includes? lang
+      raise Exceptions::UnknownLang.new("the lang #{lang} can't be accepted (please refer to the list of accepted langs on the documentation)") unless LANGS.includes? lang
       @lang = lang
 
-      raise Exceptions::UnknownUnit.new("unknown unit #{unit}") unless UNITS.includes? unit
-      @unit = unit
+      raise Exceptions::UnknownUnit.new("the units #{units} can't be accepted (please refer to the list of accepted units on the documentation)") unless UNITS.includes? unit
+      @units = units
     end
 
     # Fetches the current weather for a specific location
@@ -44,7 +44,7 @@ module CrystalWeather
       params.add("APPID", @api_key)
       params.add("q", location)
       params.add("lang", @lang)
-      params.add("units", @unit)
+      params.add("units", @units)
 
       url = URI.parse("#{API_URL}/#{type}?#{params}")
       response = HTTP::Client.get(url)
@@ -53,14 +53,14 @@ module CrystalWeather
       if response.success?
         return data
       else
-        api_status_text = "API status : #{data["message"]}"
+        api_status_text = "(API status : #{data["message"]})"
         case response.status_code
         when 404
-          raise Exceptions::NotFound.new("unknown location #{location}. #{api_status_text}")
-        when 403
-          raise Exceptions::Unauthorized.new("unauthorized key. #{api_status_text}")
+          raise Exceptions::NotFound.new("location #{location} wasn't found #{api_status_text}")
+        when 401
+          raise Exceptions::Unauthorized.new("the provided API key isn't valid #{api_status_text}")
         else
-          raise Exceptions::UnknownAPIError.new("unknown error from the API : #{api_status_text}")
+          raise Exceptions::UnknownAPIError.new("API returned an unknown error #{api_status_text}")
         end
       end
     end
