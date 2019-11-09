@@ -9,16 +9,16 @@ module CrystalWeather
     class UnknownLang < CrystalWeather::Exception
     end
 
-    # `UnknownUnit` informs that the caller used a unit system that isn't recognized
-    class UnknownUnit < CrystalWeather::Exception
+    # `UnknownUnitsFormat` informs that the caller used a unit system that isn't recognized
+    class UnknownUnitsFormat < CrystalWeather::Exception
     end
 
     # `Unauthorized` informs that caller's key is wrong, so it cannot access to the API
     class Unauthorized < CrystalWeather::Exception
     end
 
-    # `NotFound` informs that the location provided by the caller wasn't found
-    class NotFound < CrystalWeather::Exception
+    # `LocationNotFound` informs that the location provided by the caller wasn't found
+    class LocationNotFound < CrystalWeather::Exception
     end
 
     # `APIError` informs that an unknown error was thrown by the API

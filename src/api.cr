@@ -5,7 +5,7 @@ module CrystalWeather
   class API
     # Choosen units format between :
     # default, metric or imperial
-    getter units : String
+    getter units_format : String
     # Choosen lang between :
     # ar, bg, ca, cz, de, el, fa, fi, fr, gl, hr, hu, it, ja, kr, la, lt,
     # mk, nl, pl, pt, ro, ru, se, sk, sl, es, tr, ua, vi, zh_cn, zh_tw, en.
@@ -14,15 +14,15 @@ module CrystalWeather
     # Creates a new `API` object. Please make sure that :
     # - you created an *api_key* on OpenWeatherMap's website
     # - the *lang* you choose is valid
-    # - the *units* format you choose is valid
-    def initialize(api_key : String, lang : String, units : String)
+    # - the *units_format* format you choose is valid
+    def initialize(api_key : String, lang : String, units_format : String)
       @api_key = api_key
 
       raise Exceptions::UnknownLang.new("the lang #{lang} can't be accepted (please check the list of accepted langs on the documentation)") unless LANGS.includes? lang
       @lang = lang
 
-      raise Exceptions::UnknownUnit.new("the units format #{units} can't be accepted (please check the list of accepted units on the documentation)") unless UNITS.includes? units
-      @units = units
+      raise Exceptions::UnknownUnitsFormat.new("the units format #{units_format} can't be accepted (please check the list of accepted units on the documentation)") unless UNITS_FORMATS.includes? units_format
+      @units_format = units_format
     end
 
     # Fetches the current weather for a specific *location*
@@ -53,7 +53,7 @@ module CrystalWeather
       params.add("APPID", @api_key)
       params.add("q", location)
       params.add("lang", @lang)
-      params.add("units", @units)
+      params.add("units", @units_format)
 
       url = URI.parse("#{API_URL}/#{type}?#{params}")
       response = HTTP::Client.get(url)
@@ -65,7 +65,7 @@ module CrystalWeather
         api_status_text = "(API status : #{data["message"]})"
         case response.status_code
         when 404
-          raise Exceptions::NotFound.new("location #{location} wasn't found #{api_status_text}")
+          raise Exceptions::LocationNotFound.new("location #{location} wasn't found #{api_status_text}")
         when 401
           raise Exceptions::Unauthorized.new("the provided API key isn't valid #{api_status_text}")
         else

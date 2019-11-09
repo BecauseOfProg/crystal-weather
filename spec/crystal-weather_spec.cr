@@ -7,7 +7,7 @@ describe CrystalWeather do
         api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
         api.should be_a CrystalWeather::API
         api.lang.should eq "fr"
-        api.units.should eq "metric"
+        api.units_format.should eq "metric"
       end
 
       it "should raise an unknown lang exception" do
@@ -17,7 +17,7 @@ describe CrystalWeather do
       end
 
       it "should raise an unknown unit exception" do
-        expect_raises(CrystalWeather::Exceptions::UnknownUnit) do
+        expect_raises(CrystalWeather::Exceptions::UnknownUnitsFormat) do
           api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "hello")
         end
       end
@@ -31,7 +31,7 @@ describe CrystalWeather do
       end
 
       it "should raise an unknown location error" do
-        expect_raises(CrystalWeather::Exceptions::NotFound) do
+        expect_raises(CrystalWeather::Exceptions::LocationNotFound) do
           api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
           api.current("Washington,FR")
         end
