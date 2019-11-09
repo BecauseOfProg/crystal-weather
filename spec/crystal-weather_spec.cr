@@ -23,7 +23,7 @@ describe CrystalWeather do
       end
     end
 
-    describe "#current" do
+    describe "#raw_current" do
       it "should get the raw current weather data" do
         api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
         data = api.raw_current("Lyon,FR")
@@ -33,19 +33,19 @@ describe CrystalWeather do
       it "should raise an unknown location error" do
         expect_raises(CrystalWeather::Exceptions::LocationNotFound) do
           api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
-          api.current("Washington,FR")
+          api.raw_current("Washington,FR")
         end
       end
 
       it "should raise an unauthorized key error" do
         expect_raises(CrystalWeather::Exceptions::Unauthorized) do
           api = CrystalWeather::API.new("sample key", "fr", "metric")
-          api.current("Lyon,FR")
+          api.raw_current("Lyon,FR")
         end
       end
     end
 
-    describe "#forecast" do
+    describe "#raw_forecast" do
       it "should get the raw forecast data" do
         api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
         data = api.raw_forecast("Lyon,FR")
