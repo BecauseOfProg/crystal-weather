@@ -28,13 +28,13 @@ module CrystalWeather
     # Fetches the current weather for a specific *location*
     def current(location : String) : Types::Current
       data = raw_current(location)
-      return Types::Current.new
+      return Types::Current.new(data)
     end
 
     # Fetches the forecast for a specific *location*
     def forecast(location : String) : Types::Forecast
       data = raw_forecast(location)
-      return Types::Forecast.new
+      return Types::Forecast.new(data)
     end
 
     # Gets the raw data of the current weather for a specific *location*
@@ -44,7 +44,7 @@ module CrystalWeather
 
     # Gets the raw data of the forecast for a specific *location*
     def raw_forecast(location : String) : JSON::Any
-      return make_request("weather", location)
+      return make_request("forecast", location)
     end
 
     # Makes a request to the OpenWeatherMap API, using the *type* of the request (forecast or weather) and a specific *location*

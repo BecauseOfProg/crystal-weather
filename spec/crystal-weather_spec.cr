@@ -52,5 +52,21 @@ describe CrystalWeather do
         data.should be_a(JSON::Any)
       end
     end
+
+    describe "#current" do
+      it "should return a CrystalWeather::Types::Current" do
+        api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
+        data = api.current("Lyon,FR")
+        data.should be_a(CrystalWeather::Types::Current)
+      end
+    end
+
+    describe "#forecast" do
+      it "should return a CrystalWeather::Types::Forecast" do
+        api = CrystalWeather::API.new(ENV["WEATHER_API_KEY"], "fr", "metric")
+        data = api.forecast("Lyon,FR")
+        data.should be_a(CrystalWeather::Types::Forecast)
+      end
+    end
   end
 end
